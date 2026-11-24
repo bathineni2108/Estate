@@ -1,32 +1,49 @@
-import { FaSearch } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <div className=' border-b-2 border-blue-400 bg-slate-300'>
-        <div className='flex justify-between items-center max-w-7xl mx-auto px-4 py-3'>
-            <Link to='/' >
-            <h1 className='text-slate-700 font-bold '>
-                Estate
-            </h1>
-            </Link>
-            
-             <form className='flex items-center bg-slate-100 border-2 border-blue-400 rounded-md px-2 py-1' >
-            <input type="text" placeholder='Search' className='outline-none w-34 sm:w-64' />
-            <FaSearch className='text-slate-500' />
-            </form>
-            <ul className='flex gap-4'>
-                <Link to='/'>
-                <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
-                </Link>
-                <Link to='/about'>
-                <li className='hidden sm:inline text-slate-700 hover:underline'>About</li>
-                </Link>
-                <Link to='/signin'>
-                <li className='text-slate-700 hover:underline'>Sign In</li>
-                </Link>
-            </ul>
-        </div>      
-    </div>
-  )
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-xs">
+      <div className="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 py-3.5">
+        <Link to="/" className="flex items-center gap-1 text-xl sm:text-2xl font-extrabold tracking-tight">
+          <span className="text-[#007bff]">Prime</span>
+          <span className="text-slate-800">Estate</span>
+        </Link>
+
+        <form className="flex items-center bg-slate-50 border border-slate-300 focus-within:border-[#007bff] focus-within:ring-2 focus-within:ring-[#007bff]/20 rounded-full px-3.5 py-1.5 transition-all">
+          <input
+            type="text"
+            placeholder="Search properties, cities..."
+            className="bg-transparent outline-none text-sm text-slate-700 placeholder:text-slate-400 w-32 sm:w-64"
+          />
+          <button type="submit" aria-label="Search" className="text-slate-400 hover:text-[#007bff] transition-colors">
+            <FaSearch className="text-sm" />
+          </button>
+        </form>
+
+        <nav>
+          <ul className="flex items-center gap-6 text-sm font-medium">
+            <li className="hidden sm:block">
+              <Link to="/" className="text-slate-600 hover:text-[#007bff] transition-colors">
+                Home
+              </Link>
+            </li>
+            <li className="hidden sm:block">
+              <Link to="/about" className="text-slate-600 hover:text-[#007bff] transition-colors">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/signin"
+                className="bg-[#007bff] hover:bg-[#0069d9] text-white px-4 py-2 rounded-lg font-semibold shadow-xs transition-colors"
+              >
+                Sign In
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  );
 }
