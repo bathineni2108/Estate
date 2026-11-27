@@ -29,3 +29,29 @@ export const signin = async (req,res,next)=>{
         next(error);
     }
 };
+
+export const googleAuth = async (req,res,next)=>{
+    const {email,name,photoURL} = req.body;
+    try {
+        const existingUser = await User.findOne({email});
+        if(existingUser) {
+            const token = jwt.sign({id:existingUser._id},process.env.JWT_SECRET,{expiresIn:'7d'});
+            const {password:_,...others} = existingUser._doc;
+            res.cookie("access_token", token, {httpOnly: true}).status(200).json({success:true,others});
+        } else {
+            const generatedPassword = bcryptjs.hashSync(Math.random().toString(36).slice(-8), 10);
+            const newUser = new User({
+                username:name.split(' ').join('').toLowerCase()+Math.random().toString(36).slice(-4),
+                email,
+                password:generatedPassword,
+                profilePicture:photoURL
+            });
+            await newUser.save();
+            const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{expiresIn:'7d'});
+            const {password:_,...others} = newUser._doc;
+            res.cookie("access_token", token, {httpOnly: true}).status(200).json({success:true,others});
+        }
+    } catch (error) {
+        next(error);
+    }
+};
