@@ -17,6 +17,15 @@ app.use(express.json());
 
 app.use('/backend/user',userRouter);
 app.use('/backend/auth',authRouter);
+app.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.status(statusCode).json({
+        succuss:false,
+        statusCode,
+        message,
+    });
+});
 
 app.listen(4000,()=>{
     console.log('server is running')
