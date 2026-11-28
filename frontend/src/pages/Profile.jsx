@@ -1,9 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import {
+  deleteUserFailure,
+  deleteUserSuccess,
+  deleteUserStart,
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
+  signoutUserStart,
+  signoutUserSuccess,
+  signoutUserFailure
 } from '../redux/user/userSlice.js';
 
 export default function Profile() {
@@ -55,6 +61,40 @@ export default function Profile() {
   if (!user) {
     return null;
   }
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/backend/user/delete/${user._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok || data.success === false) {
+        dispatch(deleteUserFailure(data.message || 'Could not delete account'));
+        return;
+      }
+      dispatch(deleteUserSuccess()); 
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+  const handleSignOut = async () => {
+    try {
+      dispatch(signoutUserStart());
+      const res = await fetch('/backend/auth/signout', {
+        method: 'GET',
+      });
+      const data = await res.json();
+      if (!res.ok || data.success === false) {
+        dispatch(signoutUserFailure(data.message || 'Could not sign out'));
+        return;
+      }
+      dispatch(signoutUserSuccess());
+    }
+    catch (error) {
+      dispatch(signoutUserFailure(error.message));
+    }
+  };
+
 
   return (
      <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
@@ -100,8 +140,8 @@ export default function Profile() {
         {error && <p role="alert" className="mt-4 text-sm text-red-600">{error}</p>}
         {updateSuccess && <p role="alert" className="mt-4 text-sm text-green-600">Profile updated successfully!</p>}
        <div className="mt-4 flex justify-between text-sm text-red-600">
-        <span className="hover:underline cursor-pointer">Delete account</span>
-        <span className="hover:underline cursor-pointer">Sign out</span>
+        <span onClick={handleDeleteUser} className="hover:underline cursor-pointer">Delete account</span>
+        <span onClick={handleSignOut} className="hover:underline cursor-pointer">Sign out</span>
        </div>
       </div>
     </div>
