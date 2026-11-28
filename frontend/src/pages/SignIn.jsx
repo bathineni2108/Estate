@@ -49,7 +49,7 @@ export default function SignIn() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-sm rounded-lg bg-white p-8 shadow-md">
+      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Sign IN
         </h2>

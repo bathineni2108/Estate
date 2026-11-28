@@ -28,7 +28,7 @@ export const signin = async (req,res,next)=>{
     } catch (error) {
         next(error);
     }
-};
+}; 
 
 export const googleAuth = async (req,res,next)=>{
     const {email,name,photoURL} = req.body;
