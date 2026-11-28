@@ -11,6 +11,7 @@ import {
   signoutUserSuccess,
   signoutUserFailure
 } from '../redux/user/userSlice.js';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
   const currentUser = useSelector((state) => state.user.currentuser);
@@ -136,6 +137,9 @@ export default function Profile() {
           >
             {loading ? 'Updating...' : 'Update Profile'}
           </button>
+          <Link to='/create-listing' className="w-full rounded bg-[#28a745] py-2.5 font-semibold text-white transition hover:bg-[#218838] text-center block">
+            Create Listing
+          </Link>
         </form>
         {error && <p role="alert" className="mt-4 text-sm text-red-600">{error}</p>}
         {updateSuccess && <p role="alert" className="mt-4 text-sm text-green-600">Profile updated successfully!</p>}
